@@ -1,0 +1,83 @@
+---
+apiVersion: maistra.io/v1
+kind: ServiceMeshControlPlane
+metadata:
+  name: basic-install
+spec:
+  version: v1.1
+  istio:
+    gateways:
+      istio-ingressgateway:
+        enabled: true
+        ior_enabled: false
+        secretVolumes:
+          - name: api-cert
+            secretName: api-cert
+            mountPath: /etc/api-cert/certs
+      istio-egressgateway:
+        enabled: false
+    global:
+      controlPlaneSecurityEnabled: true
+      disablePolicyChecks: false
+      mtls:
+        enabled: true
+      proxy:
+        accessLogFile: "/dev/stdout"
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+    grafana:
+      enabled: true
+      resources:
+        requests:
+          cpu: 10m
+          memory: 128Mi
+    kiali:
+      enabled: true
+      resources:
+        requests:
+          cpu: 100m
+          memory: 128Mi
+    mixer:
+      policy:
+        autoscaleEnabled: false
+        resources:
+          requests:
+            cpu: 10m
+            memory: 128Mi
+      telemetry:
+        autoscaleEnabled: false
+        resources:
+          requests:
+            cpu: 100m
+            memory: 1G
+    pilot:
+      autoscaleEnabled: false
+      traceSampling: 100
+      resources:
+        requests:
+          cpu: 10m
+          memory: 128Mi
+    tracing:
+      enabled: true
+      jaeger:
+        template: production-elasticsearch
+        elasticsearch:
+          nodeCount: 3
+          redundancyPolicy: "MultipleRedundancy"
+          resources:
+            requests:
+              cpu: "1"
+              memory: "4Gi"
+            limits:
+              cpu: "1"
+              memory: "4Gi"
+          storage:
+            storageClassName: gp2
+            size: 50Gi
+          esIndexCleaner:
+            enabled: true            # turn the cron job deployment on and off
+            numberOfDays: 60         # number of days to wait before deleting a record
+            schedule: "55 23 * * *"  # cron expression for it to run
+...

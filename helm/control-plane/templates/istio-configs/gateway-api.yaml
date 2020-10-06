@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: api
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+      - api-istio-system.apps.cluster-c718.c718.sandbox761.opentlc.com
+    port:
+      name: grpc-https
+      number: 443
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      serverCertificate: /etc/api-cert/certs/tls.crt
+      privateKey: /etc/api-cert/certs/tls.key
