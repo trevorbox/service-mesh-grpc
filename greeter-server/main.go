@@ -27,7 +27,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
-	pb "github.com/trevorbox/grpc/examples/helloworld/helloworld"
+	pb "github.com/trevorbox/service-mesh-grpc/greeter-server/helloworld"
 )
 
 const (
