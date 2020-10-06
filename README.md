@@ -1,5 +1,7 @@
 # grpc in service mesh
 
+## Compile proto
+
 <https://github.com/grpc/grpc-go#if-you-are-not-using-go-modules>
 
 ```sh
@@ -7,16 +9,11 @@ protoc \
   -I proto \
   -I proto/google/api \
   -I /usr/local/include \
-  --descriptor_set_out=github.com/trevorbox/grpc/examples/helloworld/helloworld/helloworld.pb \
+  --descriptor_set_out=proto/build/helloworld.pb \
   --include_imports \
-  --go_out=plugins=grpc:. \
+  --go_out=plugins=grpc:proto/build \
+  --go_opt=paths=source_relative \
   proto/*.proto
-
-
-protoc --go_out=plugins=grpc:. *.proto
-
-protoc -I google/api -I . -I $GOPATH/src -I $GOPATH/src/google.golang.org/protobuf/proto --go_out=plugins=grpc:. *.proto
-
 ```
 
 ## Setup
