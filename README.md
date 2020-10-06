@@ -9,9 +9,9 @@ protoc \
   -I proto \
   -I proto/google/api \
   -I /usr/local/include \
-  --descriptor_set_out=proto/build/helloworld.pb \
+  --descriptor_set_out=greeter-server/helloworld/helloworld.pb \
   --include_imports \
-  --go_out=plugins=grpc:proto/build \
+  --go_out=plugins=grpc:greeter-server/helloworld\
   --go_opt=paths=source_relative \
   proto/*.proto
 ```
