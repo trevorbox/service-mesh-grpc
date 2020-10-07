@@ -11,7 +11,7 @@ protoc \
   -I /usr/local/include \
   --descriptor_set_out=greeter-server/helloworld/helloworld.pb \
   --include_imports \
-  --go_out=plugins=grpc:greeter-server/helloworld\
+  --go_out=plugins=grpc:greeter-server/helloworld \
   --go_opt=paths=source_relative \
   greeter-server/proto/*.proto
 ```
@@ -46,16 +46,18 @@ helm upgrade -i control-plane helm/control-plane -n istio-system
 ## Install greeter-server
 
 ```sh
+oc create configmap proto-descriptor --from-file=proto.pb=greeter-server/helloworld/helloworld.pb -n go
 helm upgrade -i greeter-server helm/greeter-server -n go
 ```
 
 ```sh
+oc get secret api-cert -n istio-system -o jsonpath='{.data.ca\.crt}' | base64 -d > /tmp/ca.crt
+
 grpcui -protoset greeter-server/helloworld/helloworld.pb --cacert /tmp/ca.crt -service helloworld.Greeter api-istio-system.apps.cluster-946d.946d.sandbox1072.opentlc.com:443
 
-curl -k -v -X POST -H 'Content-Type: application/json' https://api-istio-system.apps.cluster-946d.946d.sandbox1072.opentlc.com/v1/greeter --cacert /tmp/ca.crt
+curl -k -v -X POST -H 'Content-Type: application/json' --http1.1 https://api-istio-system.apps.cluster-946d.946d.sandbox1072.opentlc.com/v1/greeter?name=trevor --cacert /tmp/ca.crt
 
-istioctl proxy-config listeners $(oc get pod -l app=example -n go -o jsonpath='{.items[0].metadata.name}') -n go  -o json | less
+istioctl proxy-config listeners $(oc get pod -l app=greeter-server -n go -o jsonpath='{.items[0].metadata.name}') -n go  -o json | less
 
-istioctl pc log $(oc get pod -l app=example -n go -o jsonpath='{.items[0].metadata.name}') -n go --level debug
-
+istioctl pc log $(oc get pod -l app=greeter-server -n go -o jsonpath='{.items[0].metadata.name}') -n go --level debug
 ```
