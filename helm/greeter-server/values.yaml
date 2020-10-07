@@ -1,6 +1,10 @@
 app:
   name: greeter-server
   namespace: go
+  grpc:
+    service:
+      name: helloworld.Greeter
+      proto_descriptor:
 control_plane:
   namespace: istio-system
   ingressgateway:

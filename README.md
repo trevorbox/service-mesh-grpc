@@ -46,15 +46,17 @@ helm upgrade -i control-plane helm/control-plane -n istio-system
 ## Install greeter-server
 
 ```sh
-oc create configmap proto-descriptor --from-file=proto.pb=greeter-server/helloworld/helloworld.pb -n go
-helm upgrade -i greeter-server helm/greeter-server -n go
+helm upgrade -i greeter-server helm/greeter-server -n go --set-file app.grpc.service.proto_descriptor=greeter-server/helloworld/helloworld.pb
 ```
+
+## Test HTTP and GRPC
 
 ```sh
 oc get secret api-cert -n istio-system -o jsonpath='{.data.ca\.crt}' | base64 -d > /tmp/ca.crt
 
 grpcui -protoset greeter-server/helloworld/helloworld.pb --cacert /tmp/ca.crt -service helloworld.Greeter api-istio-system.apps.cluster-946d.946d.sandbox1072.opentlc.com:443
 
+# using reflection
 grpcui -reflect-header 'service: helloworld.Greeter' --cacert /tmp/ca.crt -service helloworld.Greeter api-istio-system.apps.cluster-946d.946d.sandbox1072.opentlc.com:443
 
 curl -v -X POST -H 'Content-Type: application/json' --http1.1 https://api-istio-system.apps.cluster-946d.946d.sandbox1072.opentlc.com/v1/greeter?name=trevor --cacert /tmp/ca.crt

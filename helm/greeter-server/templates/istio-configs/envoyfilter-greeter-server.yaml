@@ -30,6 +30,6 @@ spec:
               preserve_proto_field_names: false
             proto_descriptor: /etc/envoy/proto.pb
             services:
-              - helloworld.Greeter # Service name defined in proto
+              - {{ .Values.app.grpc.service.name }} # Service name defined in proto
           name: envoy.grpc_json_transcoder
 ...

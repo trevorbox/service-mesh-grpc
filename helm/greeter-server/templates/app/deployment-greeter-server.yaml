@@ -13,7 +13,7 @@ spec:
     metadata:
       annotations:
         sidecar.istio.io/inject: "true"
-        sidecar.istio.io/userVolume: '[{"name":"descriptor","configMap":{"name":"proto-descriptor","items":[{"key":"proto.pb","path":"proto.pb"}]}}]'
+        sidecar.istio.io/userVolume: '[{"name":"descriptor","configMap":{"name":"helloworld-proto-descriptor","items":[{"key":"proto.pb","path":"proto.pb"}]}}]'
         sidecar.istio.io/userVolumeMount: '[{"name":"descriptor","mountPath":"/etc/envoy"}]'
       labels:
         app: {{ .Values.app.name }}

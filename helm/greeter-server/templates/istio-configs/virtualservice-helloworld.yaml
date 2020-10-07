@@ -21,7 +21,7 @@ spec:
             number: 50051    
     - match:
       - uri:
-          prefix: /helloworld.Greeter
+          prefix: /{{ .Values.app.grpc.service.name }}
       route:
       - destination:
           host: {{ .Values.app.name }}
@@ -33,7 +33,7 @@ spec:
           prefix: /grpc.reflection.v1alpha.ServerReflection
         headers:
           service:
-            exact: helloworld.Greeter
+            exact: {{ .Values.app.grpc.service.name }}
       route:
       - destination:
           host: {{ .Values.app.name }}

@@ -1,0 +1,9 @@
+---
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: helloworld-proto-descriptor
+  namespace: {{ .Values.app.namespace }}
+binaryData:
+  proto.pb: {{ .Values.app.grpc.service.proto_descriptor | b64enc | quote }}
+...
