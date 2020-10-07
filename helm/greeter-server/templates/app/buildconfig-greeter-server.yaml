@@ -24,7 +24,7 @@ spec:
     sourceStrategy:
       env:
       - name: IMPORT_URL
-        value: github.com/trevorbox/service-mesh-grpc/blob/master/greeter-server/helloworld
+        value: github.com/trevorbox/service-mesh-grpc/blob/master/greeter-server
       - name: INSTALL_URL
         value: github.com/trevorbox/service-mesh-grpc/blob/master/greeter-server
       from:
