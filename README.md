@@ -27,6 +27,7 @@ go run greeter-server/main.go
 
 ```sh
 oc new-project istio-system
+oc new-project go
 ```
 
 ## Deploy cert-manager (skip if already present in the cluster)
@@ -40,6 +41,12 @@ oc apply --validate=false -f https://github.com/jetstack/cert-manager/releases/d
 
 ```sh
 helm upgrade -i control-plane helm/control-plane -n istio-system
+```
+
+## Install greeter-server
+
+```sh
+helm upgrade -i greeter-server helm/greeter-server -n go
 ```
 
 ```sh

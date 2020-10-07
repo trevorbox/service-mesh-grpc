@@ -16,7 +16,7 @@ spec:
   resources: {}
   runPolicy: Serial
   source:
-    contextDir: greeter_server
+    contextDir: greeter-server
     git:
       uri: https://github.com/trevorbox/service-mesh-grpc.git
     type: Git
@@ -24,9 +24,9 @@ spec:
     sourceStrategy:
       env:
       - name: IMPORT_URL
-        value: github.com/trevorbox/service-mesh-grpc/blob/master/greeter_server
+        value: github.com/trevorbox/service-mesh-grpc/blob/master/greeter-server/helloworld
       - name: INSTALL_URL
-        value: github.com/trevorbox/service-mesh-grpc/blob/master/greeter_server
+        value: github.com/trevorbox/service-mesh-grpc/blob/master/greeter-server
       from:
         kind: ImageStreamTag
         name: golang:1.11.5
