@@ -14,7 +14,7 @@ spec:
             name: envoy.http_connection_manager
             subFilter:
               name: envoy.router
-        portNumber: 8081 # application port
+        portNumber: 50051 # application port
     patch:
       operation: INSERT_BEFORE
       value:
@@ -26,7 +26,7 @@ spec:
             preserve_proto_field_names: false
           proto_descriptor: /etc/envoy/proto.pb
           services:
-          - helloworld.Greeter # Service name defined in proto
+          - Greeter # Service name defined in proto
         name: envoy.grpc_json_transcoder
   workloadSelector:
     labels:

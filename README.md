@@ -50,9 +50,9 @@ helm upgrade -i greeter-server helm/greeter-server -n go
 ```
 
 ```sh
-grpcui -proto helloworld/helloworld.proto --cacert /tmp/ca.crt -service helloworld.Greeter api-istio-system.apps.cluster-c718.c718.sandbox761.opentlc.com:443
+grpcui -protoset greeter-server/helloworld/helloworld.pb --cacert /tmp/ca.crt -service helloworld.Greeter api-istio-system.apps.cluster-946d.946d.sandbox1072.opentlc.com:443
 
-curl -k -d '{"name": "asd"}' -H 'Content-Type: application/json' https://api-istio-system.apps.cluster-c718.c718.sandbox761.opentlc.com/v1/helloworld.Greeter/SayHello --cacert /tmp/ca.crt
+curl -k -v -X POST -H 'Content-Type: application/json' https://api-istio-system.apps.cluster-946d.946d.sandbox1072.opentlc.com/v1/greeter --cacert /tmp/ca.crt
 
 istioctl proxy-config listeners $(oc get pod -l app=example -n go -o jsonpath='{.items[0].metadata.name}') -n go  -o json | less
 
