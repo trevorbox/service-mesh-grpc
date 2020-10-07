@@ -1,19 +1,26 @@
 # grpc in service mesh
 
-## Compile proto
+## How to compile greeter-server proto
 
 <https://github.com/grpc/grpc-go#if-you-are-not-using-go-modules>
 
 ```sh
 protoc \
-  -I proto \
-  -I proto/google/api \
+  -I greeter-server/proto \
+  -I greeter-server/proto/google/api \
   -I /usr/local/include \
   --descriptor_set_out=greeter-server/helloworld/helloworld.pb \
   --include_imports \
   --go_out=plugins=grpc:greeter-server/helloworld\
   --go_opt=paths=source_relative \
-  proto/*.proto
+  greeter-server/proto/*.proto
+```
+
+## How to run greeter-server locally
+
+```sh
+go get github.com/trevorbox/service-mesh-grpc/greeter-server/helloworld
+go run greeter-server/main.go
 ```
 
 ## Setup

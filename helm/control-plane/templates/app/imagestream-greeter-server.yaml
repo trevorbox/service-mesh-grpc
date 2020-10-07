@@ -2,11 +2,9 @@ apiVersion: image.openshift.io/v1
 kind: ImageStream
 metadata:
   labels:
-    app: greeter-server
-    app.kubernetes.io/component: greeter-server
-    app.kubernetes.io/instance: greeter-server
-  name: greeter-server
-  namespace: go
+    app: {{ .Values.app.name }}
+  name: {{ .Values.app.name }}
+  namespace: {{ .Values.app.namespace }}
 spec:
   lookupPolicy:
     local: false

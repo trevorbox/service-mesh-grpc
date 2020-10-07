@@ -1,8 +1,8 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
-  name: backend-grpc
-  namespace: go
+  name: {{ .Values.app.name }}
+  namespace: {{ .Values.app.namespace }}
 spec:
   configPatches:
   - applyTo: HTTP_FILTER
@@ -30,4 +30,4 @@ spec:
         name: envoy.grpc_json_transcoder
   workloadSelector:
     labels:
-      app: example
+      app: {{ .Values.app.name }}

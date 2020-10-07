@@ -5,12 +5,12 @@ metadata:
 spec:
   # Secret names are always required.
   secretName: api-cert
-  commonName: api-istio-system.apps.cluster-c718.c718.sandbox761.opentlc.com
+  commonName: {{ .Values.control_plane.ingressgateway.host }}
   usages:
     - server auth
     - client auth  
   dnsNames:
-    - api-istio-system.apps.cluster-c718.c718.sandbox761.opentlc.com
+    - {{ .Values.control_plane.ingressgateway.host }}
   issuerRef:
     name: internal-issuer
     # We can reference ClusterIssuers by changing the kind here.

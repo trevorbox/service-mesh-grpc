@@ -1,0 +1,6 @@
+app:
+  name: greeter-server
+  namespace: go
+control_plane:
+  ingressgateway:
+    host: api-istio-system.apps.cluster-c718.c718.sandbox761.opentlc.com

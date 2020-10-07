@@ -2,47 +2,36 @@ apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
   labels:
-    app: greeter-server
-    app.kubernetes.io/component: greeter-server
-    app.kubernetes.io/instance: greeter-server
-  name: greeter-server
-  namespace: go
+    app: {{ .Values.app.name }}
+  name: {{ .Values.app.name }}
+  namespace: {{ .Values.app.namespace }}
 spec:
   failedBuildsHistoryLimit: 5
   nodeSelector: null
   output:
     to:
       kind: ImageStreamTag
-      name: greeter-server:latest
+      name: {{ .Values.app.name }}:latest
   postCommit: {}
   resources: {}
   runPolicy: Serial
   source:
-    contextDir: examples/helloworld/greeter_server
+    contextDir: greeter_server
     git:
-      uri: https://github.com/grpc/grpc-go.git
+      uri: https://github.com/trevorbox/service-mesh-grpc.git
     type: Git
   strategy:
     sourceStrategy:
       env:
       - name: IMPORT_URL
-        value: github.com/grpc/grpc-go/blob/master/examples/helloworld/greeter_server
+        value: github.com/trevorbox/service-mesh-grpc/blob/master/greeter_server
       - name: INSTALL_URL
-        value: github.com/grpc/grpc-go/blob/master/examples/helloworld/greeter_server
+        value: github.com/trevorbox/service-mesh-grpc/blob/master/greeter_server
       from:
         kind: ImageStreamTag
         name: golang:1.11.5
         namespace: openshift
     type: Source
-  successfulBuildsHistoryLimit: 5
+  successfulBuildsHistoryLimit: 1
   triggers:
-  - github:
-      secret: ZUn3DYrCdDqy158rGEP_
-    type: GitHub
-  - generic:
-      secret: F5_5mi8HpEiKVP57k5q_
-    type: Generic
-  - type: ConfigChange
-  - imageChange:
-      lastTriggeredImageID: image-registry.openshift-image-registry.svc:5000/openshift/golang@sha256:ebfed97ee40d3e38794a12c10587082173e90546d2cb97514d7e42457ec156b7
-    type: ImageChange
+  - type: ImageChange

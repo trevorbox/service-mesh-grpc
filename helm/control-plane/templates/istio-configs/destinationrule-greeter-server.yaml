@@ -1,10 +1,10 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: example
-  namespace: go
+  name: {{ .Values.app.name }}
+  namespace: {{ .Values.app.namespace }}
 spec:
-  host: example
+  host: {{ .Values.app.name }}
   subsets:
   - labels:
       version: v1
