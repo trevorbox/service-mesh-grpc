@@ -24,9 +24,7 @@ spec:
     sourceStrategy:
       env:
       - name: IMPORT_URL
-        value: github.com/trevorbox/service-mesh-grpc/blob/master/greeter-server
-      - name: INSTALL_URL
-        value: github.com/trevorbox/service-mesh-grpc/blob/master/greeter-server
+        value: github.com/trevorbox/service-mesh-grpc/greeter-server
       from:
         kind: ImageStreamTag
         name: golang:1.11.5
