@@ -55,7 +55,11 @@ oc get secret api-cert -n istio-system -o jsonpath='{.data.ca\.crt}' | base64 -d
 
 grpcui -protoset greeter-server/helloworld/helloworld.pb --cacert /tmp/ca.crt -service helloworld.Greeter api-istio-system.apps.cluster-946d.946d.sandbox1072.opentlc.com:443
 
-curl -k -v -X POST -H 'Content-Type: application/json' --http1.1 https://api-istio-system.apps.cluster-946d.946d.sandbox1072.opentlc.com/v1/greeter?name=trevor --cacert /tmp/ca.crt
+grpcui -reflect-header 'service: helloworld.Greeter' --cacert /tmp/ca.crt -service helloworld.Greeter api-istio-system.apps.cluster-946d.946d.sandbox1072.opentlc.com:443
+
+curl -v -X POST -H 'Content-Type: application/json' --http1.1 https://api-istio-system.apps.cluster-946d.946d.sandbox1072.opentlc.com/v1/greeter?name=trevor --cacert /tmp/ca.crt
+
+curl -v -X POST -H 'Content-Type: application/json' -d '{"name":"Tobias Fünke"}' --http1.1 https://api-istio-system.apps.cluster-946d.946d.sandbox1072.opentlc.com/v1/greeter --cacert /tmp/ca.crt
 
 istioctl proxy-config listeners $(oc get pod -l app=greeter-server -n go -o jsonpath='{.items[0].metadata.name}') -n go  -o json | less
 

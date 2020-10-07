@@ -1,3 +1,4 @@
+---
 kind: Route
 apiVersion: route.openshift.io/v1
 metadata:
@@ -13,3 +14,4 @@ spec:
     termination: passthrough
     insecureEdgeTerminationPolicy: Redirect
   wildcardPolicy: None
+...

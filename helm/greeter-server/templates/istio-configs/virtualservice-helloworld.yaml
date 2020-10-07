@@ -6,41 +6,38 @@ metadata:
   namespace: {{ .Values.app.namespace }}
 spec:
   gateways:
-  - {{ .Values.control_plane.namespace }}/api
+    - {{ .Values.control_plane.namespace }}/api
   hosts:
-  - {{ .Values.control_plane.ingressgateway.host }}
+    - {{ .Values.control_plane.ingressgateway.host }}
   http:
   # Routes for json paths
-  - match:
-    - uri:
-        prefix: /v1/greeter
-    route:
-    - destination:
-        host: {{ .Values.app.name }}
-        port:
-          number: 50051
-    corsPolicy:
-      allowOrigin:
-      - "*"
-      allowMethods:
-      - OPTIONS
-      - GET
-      - POST
-      - DELETE
-      - PATCH
-      allowCredentials: true
-      allowHeaders:
-      - Content-Type
-      - Authorization
-      maxAge: "1h"
-  - match:
-    - uri:
-        prefix: /helloworld.Greeter
-    route:
-    - destination:
-        host: {{ .Values.app.name }}
-        subset: v1
-        port:
-          number: 50051
-
+    - match:
+      - uri:
+          prefix: /v1/greeter
+      route:
+      - destination:
+          host: {{ .Values.app.name }}
+          port:
+            number: 50051    
+    - match:
+      - uri:
+          prefix: /helloworld.Greeter
+      route:
+      - destination:
+          host: {{ .Values.app.name }}
+          subset: v1
+          port:
+            number: 50051
+    - match:
+      - uri:
+          prefix: /grpc.reflection.v1alpha.ServerReflection
+        headers:
+          service:
+            exact: helloworld.Greeter
+      route:
+      - destination:
+          host: {{ .Values.app.name }}
+          subset: v1
+          port:
+            number: 50051
 ...

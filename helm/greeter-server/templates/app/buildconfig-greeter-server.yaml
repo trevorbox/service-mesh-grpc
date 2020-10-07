@@ -1,3 +1,4 @@
+---
 apiVersion: build.openshift.io/v1
 kind: BuildConfig
 metadata:
@@ -33,3 +34,4 @@ spec:
   successfulBuildsHistoryLimit: 1
   triggers:
   - type: ImageChange
+...

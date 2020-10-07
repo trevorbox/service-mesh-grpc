@@ -1,33 +1,35 @@
+---
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: {{ .Values.app.name }}
   namespace: {{ .Values.app.namespace }}
 spec:
-  configPatches:
-  - applyTo: HTTP_FILTER
-    match:
-      context: SIDECAR_INBOUND
-      listener:
-        filterChain:
-          filter:
-            name: envoy.http_connection_manager
-            subFilter:
-              name: envoy.router
-        portNumber: 50051 # application port
-    patch:
-      operation: INSERT_BEFORE
-      value:
-        config:
-          print_options:
-            add_whitespace: true
-            always_print_enums_as_ints: false
-            always_print_primitive_fields: true
-            preserve_proto_field_names: true
-          proto_descriptor: /etc/envoy/proto.pb
-          services:
-            - helloworld.Greeter # Service name defined in proto
-        name: envoy.grpc_json_transcoder
   workloadSelector:
     labels:
       app: {{ .Values.app.name }}
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+        listener:
+          filterChain:
+            filter:
+              name: envoy.http_connection_manager
+              subFilter:
+                name: envoy.router
+          portNumber: 50051 # application port
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          config:
+            print_options:
+              add_whitespace: true
+              always_print_primitive_fields: true
+              always_print_enums_as_ints: false
+              preserve_proto_field_names: false
+            proto_descriptor: /etc/envoy/proto.pb
+            services:
+              - helloworld.Greeter # Service name defined in proto
+          name: envoy.grpc_json_transcoder
+...
